@@ -39,8 +39,9 @@ public:
      * @brief Constructor with input stream.
      * @param input Reference to the input stream to tokenize
      * @param fromStdin Flag indicating if input is from stdin (handles ";;" marker)
+     * @param collectErrors Flag indicating if errors should be collected instead of thrown
      */
-    explicit Lexer(std::istream& input, bool fromStdin = false);
+    explicit Lexer(std::istream& input, bool fromStdin = false, bool collectErrors = false);
 
     /**
      * @brief Tokenizes the entire input stream.
@@ -48,7 +49,7 @@ public:
      * Reads the input and produces a vector of all tokens found.
      *
      * @return std::vector<Token> Vector containing all tokens in order
-     * @throws LexicalException if an invalid character or token is encountered
+     * @throws LexicalException if an invalid character or token is encountered (fail-fast mode)
      */
     std::vector<Token> tokenize();
 
@@ -58,17 +59,41 @@ public:
      * Used for incremental tokenization if needed.
      *
      * @return Token The next token from the input
-     * @throws LexicalException if an invalid character or token is encountered
+     * @throws LexicalException if an invalid character or token is encountered (fail-fast mode)
      */
     Token nextToken();
 
+    /**
+     * @brief Enables or disables error collection mode.
+     *
+     * In error collection mode, errors are stored instead of thrown,
+     * allowing the lexer to continue and find all errors.
+     *
+     * @param collect If true, enables error collection mode
+     */
+    void setCollectErrors(bool collect);
+
+    /**
+     * @brief Gets all collected errors.
+     * @return const std::vector<std::string>& Vector of error messages
+     */
+    const std::vector<std::string>& getErrors() const;
+
+    /**
+     * @brief Checks if any errors were collected.
+     * @return bool True if errors exist
+     */
+    bool hasErrors() const;
+
 private:
-    std::istream& _input;   ///< Reference to the input stream
-    bool _fromStdin;        ///< Flag for stdin input (handles ";;" terminator)
-    size_t _line;           ///< Current line number (1-indexed)
-    size_t _column;         ///< Current column number (0-indexed)
-    char _currentChar;      ///< The current character being examined
-    bool _endReached;       ///< Flag indicating if end of input was reached
+    std::istream& _input;                ///< Reference to the input stream
+    bool _fromStdin;                     ///< Flag for stdin input (handles ";;" terminator)
+    size_t _line;                        ///< Current line number (1-indexed)
+    size_t _column;                      ///< Current column number (0-indexed)
+    char _currentChar;                   ///< The current character being examined
+    bool _endReached;                    ///< Flag indicating if end of input was reached
+    bool _collectErrors;                 ///< Flag for error collection mode (bonus)
+    std::vector<std::string> _errors;    ///< Collected error messages
 
     /**
      * @brief Advances to the next character in the input.
@@ -123,6 +148,14 @@ private:
      * @return TokenType The corresponding token type
      */
     TokenType keywordToTokenType(const std::string& str) const;
+
+    /**
+     * @brief Skips to a recoverable state after an error.
+     *
+     * Advances to the next newline or end of input to attempt
+     * error recovery in collection mode.
+     */
+    void skipToRecoverableState();
 };
 
 #endif // LEXER_HPP
