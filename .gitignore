@@ -1,0 +1,32 @@
+# Build artifacts
+objs/
+*.o
+*.a
+avm
+
+venv
+venv/
+
+# Documentation build
+doc/_build/
+doc/xml/
+doc/_static/
+doc/_templates/
+
+# Valgrind output
+*valgrind-out.txt
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
