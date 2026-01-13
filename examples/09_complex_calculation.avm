@@ -1,0 +1,25 @@
+; Example 9: Complex Calculation
+; Calculate: ((10 + 5) * 3 - 20) / 5
+; Expected result: 7
+
+push int32(10)
+push int32(5)
+add
+; Stack: [15]
+
+push int32(3)
+mul
+; Stack: [45]
+
+push int32(20)
+sub
+; Stack: [25]
+
+push int32(5)
+div
+; Stack: [5]
+
+assert int32(5)
+dump
+
+exit

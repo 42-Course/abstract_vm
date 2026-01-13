@@ -1,0 +1,20 @@
+; Example 7: Stack Manipulation
+; Demonstrates push, pop, and dump commands
+
+push int32(1)
+push int32(2)
+push int32(3)
+push int32(4)
+push int32(5)
+
+dump
+; Output: 5, 4, 3, 2, 1 (most recent first)
+
+pop
+pop
+; Removed 5 and 4
+
+dump
+; Output: 3, 2, 1
+
+exit

@@ -1,0 +1,26 @@
+; Example 2: All Arithmetic Operations
+; Demonstrates add, sub, mul, div, and mod
+
+push int32(100)
+push int32(20)
+add
+; Stack: [120]
+
+push int32(10)
+sub
+; Stack: [110]
+
+push int32(2)
+mul
+; Stack: [220]
+
+push int32(4)
+div
+; Stack: [55]
+
+push int32(10)
+mod
+; Stack: [5]
+
+dump
+exit

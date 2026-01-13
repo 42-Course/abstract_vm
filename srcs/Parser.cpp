@@ -1,16 +1,11 @@
-/**
- * @file Parser.cpp
- * @brief Implementation of the Parser class for syntactic analysis.
- */
-
 #include "Parser.hpp"
 #include "Commands.hpp"
 #include "AbstractVMException.hpp"
 #include <iostream>
 
-Parser::Parser(const std::vector<Token>& tokens, bool collectErrors)
+Parser::Parser(const std::vector<Token>& tokens, bool collectErrors, VirtualMachine* vm)
     : _tokens(tokens), _currentIndex(0), _collectErrors(collectErrors),
-      _hasExitInstruction(false) {}
+      _hasExitInstruction(false), _vm(vm) {}
 
 const Token& Parser::currentToken() const {
     if (_currentIndex >= _tokens.size()) {
@@ -234,7 +229,7 @@ std::unique_ptr<ICommand> Parser::parseSimpleInstruction(TokenType type) {
             return std::make_unique<PrintCommand>();
         case TokenType::EXIT:
             _hasExitInstruction = true;
-            return std::make_unique<ExitCommand>();
+            return std::make_unique<ExitCommand>(_vm);
         default:
             error("Internal error: unexpected instruction type");
             return nullptr;

@@ -1,0 +1,13 @@
+; Example 1: Basic Arithmetic Operations
+; This example demonstrates simple addition and subtraction
+
+push int32(42)
+push int32(33)
+add
+dump
+
+push int32(10)
+sub
+dump
+
+exit

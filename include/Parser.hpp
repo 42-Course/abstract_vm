@@ -12,6 +12,9 @@
 #include "ICommand.hpp"
 #include "OperandFactory.hpp"
 
+// Forward declaration
+class VirtualMachine;
+
 /**
  * @class Parser
  * @brief Performs syntactic analysis and generates commands from tokens.
@@ -61,7 +64,8 @@
  * ```cpp
  * Lexer lexer(input);
  * std::vector<Token> tokens = lexer.tokenize();
- * Parser parser(tokens);
+ * VirtualMachine vm;
+ * Parser parser(tokens, false, &vm);
  * std::vector<std::unique_ptr<ICommand>> commands = parser.parse();
  * ```
  */
@@ -71,8 +75,9 @@ public:
      * @brief Constructor with token vector.
      * @param tokens Vector of tokens to parse
      * @param collectErrors If true, collects all errors instead of failing fast
+     * @param vm Pointer to the VirtualMachine instance (needed for ExitCommand)
      */
-    explicit Parser(const std::vector<Token>& tokens, bool collectErrors = false);
+    explicit Parser(const std::vector<Token>& tokens, bool collectErrors = false, VirtualMachine* vm = nullptr);
 
     /**
      * @brief Parses the tokens and generates commands.
@@ -104,6 +109,7 @@ private:
     std::vector<std::string> _errors;               ///< Collected error messages
     OperandFactory _factory;                        ///< Factory for creating operands
     bool _hasExitInstruction;                       ///< Flag tracking if exit was found
+    VirtualMachine* _vm;                            ///< Pointer to the VirtualMachine
 
     /**
      * @brief Gets the current token.

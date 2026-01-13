@@ -326,6 +326,9 @@ public:
     void execute(std::stack<const IOperand*>& stack) override;
 };
 
+// Forward declaration
+class VirtualMachine;
+
 /**
  * @class ExitCommand
  * @brief Command that terminates program execution.
@@ -341,15 +344,19 @@ public:
 class ExitCommand : public ICommand {
 public:
     /**
-     * @brief Default constructor.
+     * @brief Constructor that accepts a reference to the VirtualMachine.
+     * @param vm Pointer to the VirtualMachine instance
      */
-    ExitCommand() = default;
+    explicit ExitCommand(VirtualMachine* vm);
 
     /**
      * @brief Executes the exit operation.
      * @param stack The VM stack
      */
     void execute(std::stack<const IOperand*>& stack) override;
+
+private:
+    VirtualMachine* _vm; ///< Pointer to the VirtualMachine
 };
 
 #endif // COMMANDS_HPP

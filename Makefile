@@ -2,7 +2,7 @@ NAME            =   avm
 
 INC_PATH        =   include
 
-SRC_PATH        =   src
+SRC_PATH        =   srcs
 
 SRC             = srcs/main.cpp \
 		srcs/VirtualMachine.cpp \
@@ -13,7 +13,7 @@ SRC             = srcs/main.cpp \
 		srcs/Parser.cpp \
 		srcs/Token.cpp
 
-CXXFLAGS        =  -g -Wall -Wextra -Werror -std=c++20 -pedantic -fsanitize=address
+CXXFLAGS        =  -g -Wall -Wextra -Werror -std=c++20 -pedantic
 
 INC             =   -I${INC_PATH}
 

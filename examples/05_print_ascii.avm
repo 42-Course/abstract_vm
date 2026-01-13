@@ -1,0 +1,19 @@
+; Example 5: Print Command (ASCII Output)
+; Print interprets int8 values as ASCII characters
+
+push int8(72)   ; 'H'
+print
+push int8(101)  ; 'e'
+print
+push int8(108)  ; 'l'
+print
+push int8(108)  ; 'l'
+print
+push int8(111)  ; 'o'
+print
+push int8(33)   ; '!'
+print
+push int8(10)   ; '\n'
+print
+
+exit

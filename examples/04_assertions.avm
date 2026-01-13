@@ -1,0 +1,15 @@
+; Example 4: Assert Command
+; Assert verifies that the top of stack matches expected value
+
+push int32(42)
+assert int32(42)
+; Assert passes - value matches
+
+push float(3.14)
+assert float(3.14)
+; Assert passes
+
+push double(2.71828)
+dump
+
+exit

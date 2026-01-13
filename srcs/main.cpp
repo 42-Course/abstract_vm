@@ -1,8 +1,3 @@
-/**
- * @file main.cpp
- * @brief Entry point for the AbstractVM program.
- */
-
 #include <iostream>
 #include <fstream>
 #include "VirtualMachine.hpp"
@@ -11,6 +6,7 @@ int main(int argc, char** argv) {
     try {
         VirtualMachine vm;
 
+        vm.setCollectErrors(true); // Enable error collection mode
         if (argc == 2) {
             // Run from file
             vm.runFile(argv[1]);

@@ -1,0 +1,20 @@
+; Example 8: Division and Modulo
+; Shows division and modulo operations
+
+push int32(100)
+push int32(7)
+div
+; Result: int32(14) - integer division
+
+push int32(100)
+push int32(7)
+mod
+; Result: int32(2) - remainder
+
+push float(22.0)
+push float(7.0)
+div
+; Result: float(3.142857...) - floating point division
+
+dump
+exit

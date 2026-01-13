@@ -1,0 +1,20 @@
+; Example 6: Floating Point Operations
+; Demonstrates operations with float and double types
+
+push float(3.14)
+push float(2.0)
+mul
+; Result: float(6.28)
+
+push double(10.5)
+push double(2.5)
+div
+; Result: double(4.2)
+
+push float(1.1)
+push float(2.2)
+add
+; Result: float(3.3)
+
+dump
+exit

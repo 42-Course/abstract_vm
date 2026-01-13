@@ -1,9 +1,49 @@
 #include "AbstractVM.hpp"
 #include <iostream>
+#include <functional>
 
-// ============================================================================
-// PushCommand
-// ============================================================================
+namespace {
+    /**
+     * @brief Helper function to perform binary operations on the stack.
+     *
+     * This function encapsulates the common logic for all binary arithmetic operations:
+     * - Validates that at least 2 values are on the stack
+     * - Pops the two top values
+     * - Performs the operation
+     * - Cleans up operands
+     * - Pushes the result back onto the stack
+     *
+     * @param stack The VM stack
+     * @param operation The binary operation to perform (as a function)
+     * @param opName The name of the operation (for error messages)
+     * @throws InsufficientValuesException if stack has fewer than 2 values
+     */
+    void performBinaryOperation(
+        std::stack<const IOperand*>& stack,
+        std::function<const IOperand*(const IOperand&, const IOperand&)> operation,
+        const std::string& opName)
+    {
+        if (stack.size() < 2) {
+            throw InsufficientValuesException(opName + " requires at least 2 values on stack");
+        }
+
+        // Pop two operands (v2 on top, v1 below)
+        const IOperand* v2 = stack.top();
+        stack.pop();
+        const IOperand* v1 = stack.top();
+        stack.pop();
+
+        // Perform operation
+        const IOperand* result = operation(*v1, *v2);
+
+        // Clean up operands
+        delete v1;
+        delete v2;
+
+        // Push result
+        stack.push(result);
+    }
+}
 
 PushCommand::PushCommand(const IOperand* operand)
     : _operand(operand) {}
@@ -18,10 +58,6 @@ PushCommand::~PushCommand() {
     delete _operand;
 }
 
-// ============================================================================
-// PopCommand
-// ============================================================================
-
 void PopCommand::execute(std::stack<const IOperand*>& stack) {
     if (stack.empty()) {
         throw EmptyStackException("Pop on empty stack");
@@ -31,10 +67,6 @@ void PopCommand::execute(std::stack<const IOperand*>& stack) {
     stack.pop();
     delete top; // Clean up the operand
 }
-
-// ============================================================================
-// DumpCommand
-// ============================================================================
 
 void DumpCommand::execute(std::stack<const IOperand*>& stack) {
     // Create a temporary stack to preserve order
@@ -54,10 +86,6 @@ void DumpCommand::execute(std::stack<const IOperand*>& stack) {
         temp.pop();
     }
 }
-
-// ============================================================================
-// AssertCommand
-// ============================================================================
 
 AssertCommand::AssertCommand(const IOperand* operand)
     : _expected(operand) {}
@@ -90,141 +118,35 @@ AssertCommand::~AssertCommand() {
     delete _expected;
 }
 
-// ============================================================================
-// AddCommand
-// ============================================================================
-
 void AddCommand::execute(std::stack<const IOperand*>& stack) {
-    if (stack.size() < 2) {
-        throw InsufficientValuesException("Add requires at least 2 values on stack");
-    }
-
-    // Pop two operands
-    const IOperand* v2 = stack.top();
-    stack.pop();
-    const IOperand* v1 = stack.top();
-    stack.pop();
-
-    // Perform addition
-    const IOperand* result = *v1 + *v2;
-
-    // Clean up operands
-    delete v1;
-    delete v2;
-
-    // Push result
-    stack.push(result);
+    performBinaryOperation(stack, [](const IOperand& v1, const IOperand& v2) {
+        return v1 + v2;
+    }, "Add");
 }
-
-// ============================================================================
-// SubCommand
-// ============================================================================
 
 void SubCommand::execute(std::stack<const IOperand*>& stack) {
-    if (stack.size() < 2) {
-        throw InsufficientValuesException("Sub requires at least 2 values on stack");
-    }
-
-    // Pop two operands (v2 on top, v1 below)
-    const IOperand* v2 = stack.top();
-    stack.pop();
-    const IOperand* v1 = stack.top();
-    stack.pop();
-
-    // Perform subtraction: v1 - v2
-    const IOperand* result = *v1 - *v2;
-
-    // Clean up operands
-    delete v1;
-    delete v2;
-
-    // Push result
-    stack.push(result);
+    performBinaryOperation(stack, [](const IOperand& v1, const IOperand& v2) {
+        return v1 - v2;
+    }, "Sub");
 }
-
-// ============================================================================
-// MulCommand
-// ============================================================================
 
 void MulCommand::execute(std::stack<const IOperand*>& stack) {
-    if (stack.size() < 2) {
-        throw InsufficientValuesException("Mul requires at least 2 values on stack");
-    }
-
-    // Pop two operands
-    const IOperand* v2 = stack.top();
-    stack.pop();
-    const IOperand* v1 = stack.top();
-    stack.pop();
-
-    // Perform multiplication
-    const IOperand* result = *v1 * *v2;
-
-    // Clean up operands
-    delete v1;
-    delete v2;
-
-    // Push result
-    stack.push(result);
+    performBinaryOperation(stack, [](const IOperand& v1, const IOperand& v2) {
+        return v1 * v2;
+    }, "Mul");
 }
-
-// ============================================================================
-// DivCommand
-// ============================================================================
 
 void DivCommand::execute(std::stack<const IOperand*>& stack) {
-    if (stack.size() < 2) {
-        throw InsufficientValuesException("Div requires at least 2 values on stack");
-    }
-
-    // Pop two operands (v2 on top, v1 below)
-    const IOperand* v2 = stack.top();
-    stack.pop();
-    const IOperand* v1 = stack.top();
-    stack.pop();
-
-    // Perform division: v1 / v2
-    // Division by zero is checked inside the operator
-    const IOperand* result = *v1 / *v2;
-
-    // Clean up operands
-    delete v1;
-    delete v2;
-
-    // Push result
-    stack.push(result);
+    performBinaryOperation(stack, [](const IOperand& v1, const IOperand& v2) {
+        return v1 / v2;
+    }, "Div");
 }
-
-// ============================================================================
-// ModCommand
-// ============================================================================
 
 void ModCommand::execute(std::stack<const IOperand*>& stack) {
-    if (stack.size() < 2) {
-        throw InsufficientValuesException("Mod requires at least 2 values on stack");
-    }
-
-    // Pop two operands (v2 on top, v1 below)
-    const IOperand* v2 = stack.top();
-    stack.pop();
-    const IOperand* v1 = stack.top();
-    stack.pop();
-
-    // Perform modulo: v1 % v2
-    // Division by zero is checked inside the operator
-    const IOperand* result = *v1 % *v2;
-
-    // Clean up operands
-    delete v1;
-    delete v2;
-
-    // Push result
-    stack.push(result);
+    performBinaryOperation(stack, [](const IOperand& v1, const IOperand& v2) {
+        return v1 % v2;
+    }, "Mod");
 }
-
-// ============================================================================
-// PrintCommand
-// ============================================================================
 
 void PrintCommand::execute(std::stack<const IOperand*>& stack) {
     if (stack.empty()) {
@@ -245,12 +167,13 @@ void PrintCommand::execute(std::stack<const IOperand*>& stack) {
     std::cout << static_cast<char>(value) << std::endl;
 }
 
-// ============================================================================
-// ExitCommand
-// ============================================================================
+ExitCommand::ExitCommand(VirtualMachine* vm)
+    : _vm(vm) {}
 
 void ExitCommand::execute(std::stack<const IOperand*>& stack) {
     (void)stack; // Unused parameter
-    // Exit command doesn't modify the stack
-    // The VM will handle actual program termination
+    // Signal the VM that exit has been called
+    if (_vm) {
+        _vm->setExitCalled();
+    }
 }

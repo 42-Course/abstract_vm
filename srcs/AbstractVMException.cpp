@@ -1,13 +1,4 @@
-/**
- * @file AbstractVMException.cpp
- * @brief Implementation of the AbstractVM exception hierarchy.
- */
-
 #include "AbstractVMException.hpp"
-
-// ============================================================================
-// AbstractVMException (Base Class)
-// ============================================================================
 
 AbstractVMException::AbstractVMException(const std::string& message)
     : _message(message) {}
@@ -15,10 +6,6 @@ AbstractVMException::AbstractVMException(const std::string& message)
 const char* AbstractVMException::what() const noexcept {
     return _message.c_str();
 }
-
-// ============================================================================
-// Derived Exception Classes
-// ============================================================================
 
 LexicalException::LexicalException(const std::string& message)
     : AbstractVMException(message) {}

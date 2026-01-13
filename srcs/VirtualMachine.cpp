@@ -29,14 +29,26 @@ void VirtualMachine::setCollectErrors(bool collect) {
     _collectErrors = collect;
 }
 
+void VirtualMachine::setExitCalled() {
+    _exitCalled = true;
+}
+
 size_t VirtualMachine::stackSize() const {
     return _stack.size();
 }
 
 void VirtualMachine::run(std::istream& input, bool fromStdin) {
     Lexer lexer(input, fromStdin, _collectErrors);
-    Parser parser(lexer.tokenize(), _collectErrors);
+    Parser parser(lexer.tokenize(), _collectErrors, this);
     std::vector<std::unique_ptr<ICommand>> commands = parser.parse();
+
+    // Print collected parser errors if in error collection mode
+    if (_collectErrors && parser.hasErrors()) {
+        for (const auto& error : parser.getErrors()) {
+            std::cerr << "Error: " << error << std::endl;
+        }
+        return ;
+    }
 
     try {
         executeCommands(commands);

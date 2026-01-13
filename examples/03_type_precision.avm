@@ -1,0 +1,22 @@
+; Example 3: Type Precision
+; When mixing types, the result takes the higher precision type
+
+push int8(10)
+push int16(20)
+add
+; Result is int16(30)
+
+push int32(100)
+mul
+; Result is int32(3000)
+
+push float(1.5)
+mul
+; Result is float(4500.0)
+
+push double(2.0)
+div
+; Result is double(2250.0)
+
+dump
+exit

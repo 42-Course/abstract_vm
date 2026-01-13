@@ -131,6 +131,14 @@ public:
      */
     void setCollectErrors(bool collect);
 
+    /**
+     * @brief Signals that the exit command has been executed.
+     *
+     * This method is called by the ExitCommand to notify the VM
+     * that program execution should terminate after the current command.
+     */
+    void setExitCalled();
+
 private:
     std::stack<const IOperand*> _stack;     ///< The operand stack
     bool _exitCalled;                       ///< Flag indicating if exit was executed
