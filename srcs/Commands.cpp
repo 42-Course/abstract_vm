@@ -165,7 +165,7 @@ void PrintCommand::execute(std::stack<const IOperand*>& stack) {
     int value = std::stoi(top->toString());
 
     // Print as character
-    std::cout << static_cast<char>(value) << std::endl;
+    std::cout << static_cast<char>(value);// << std::endl;
 }
 
 ExitCommand::ExitCommand(VirtualMachine* vm)

@@ -1,10 +1,7 @@
-.. AbstractVM documentation master file, created by
-   sphinx-quickstart.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+AbstractVM
+==========
 
-AbstractVM Documentation
-========================
+A stack-based virtual machine that interprets programs written in a simple assembly language.
 
 .. toctree::
    :maxdepth: 2
@@ -16,9 +13,6 @@ AbstractVM Documentation
    execution
    parsing
    exceptions
-
-Welcome to the AbstractVM documentation. AbstractVM is a stack-based virtual
-machine that interprets programs written in a simple assembly language.
 
 Key Features
 ------------

@@ -1,4 +1,4 @@
-# AbstractVM
+# Overview
 
 AbstractVM is a stack-based virtual machine that interprets programs written in a simple assembly language. It performs arithmetic operations on a stack of typed operands.
 

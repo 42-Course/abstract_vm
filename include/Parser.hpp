@@ -23,51 +23,6 @@ class VirtualMachine;
  * validates that they conform to the AbstractVM grammar. It then
  * generates executable command objects that can be run by the VirtualMachine.
  *
- * ## Grammar
- *
- * The parser implements the following grammar:
- * ```
- * S := INSTR [SEP INSTR]* #
- *
- * INSTR :=
- *     push VALUE
- *   | pop
- *   | dump
- *   | assert VALUE
- *   | add
- *   | sub
- *   | mul
- *   | div
- *   | mod
- *   | print
- *   | exit
- *
- * VALUE :=
- *     int8(N)
- *   | int16(N)
- *   | int32(N)
- *   | float(Z)
- *   | double(Z)
- *
- * N := [-]?[0..9]+
- * Z := [-]?[0..9]+.[0..9]+
- * SEP := '\n'+
- * ```
- *
- * ## Error Handling
- *
- * The parser can operate in two modes:
- * - **Fail-fast**: Stops at the first error (default)
- * - **Error collection**: Continues parsing and collects all errors (bonus)
- *
- * ## Usage Example
- * ```cpp
- * Lexer lexer(input);
- * std::vector<Token> tokens = lexer.tokenize();
- * VirtualMachine vm;
- * Parser parser(tokens, false, &vm);
- * std::vector<std::unique_ptr<ICommand>> commands = parser.parse();
- * ```
  */
 class Parser {
 public:

@@ -13,55 +13,111 @@ Base Exception
    :protected-members:
    :undoc-members:
 
-Exception Types
----------------
+Lexical Exceptions
+------------------
 
-The following exception types are used throughout AbstractVM:
-
-Lexer Exceptions
+LexicalException
 ~~~~~~~~~~~~~~~~
 
-- **Invalid character**: Unrecognized character in input
-- **Unterminated value**: Missing closing parenthesis
+.. doxygenclass:: LexicalException
+   :project: AbstractVM
+   :members:
+   :private-members:
+   :protected-members:
+   :undoc-members:
 
-Parser Exceptions
-~~~~~~~~~~~~~~~~~
+Syntax Exceptions
+-----------------
 
-- **Syntax error**: Invalid token sequence
-- **Unknown instruction**: Unrecognized command
-- **Missing operand**: Command requires value but none provided
-- **Missing exit**: Program doesn't end with exit instruction
+SyntaxException
+~~~~~~~~~~~~~~~
+
+.. doxygenclass:: SyntaxException
+   :project: AbstractVM
+   :members:
+   :private-members:
+   :protected-members:
+   :undoc-members:
+
+UnknownInstructionException
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. doxygenclass:: UnknownInstructionException
+   :project: AbstractVM
+   :members:
+   :private-members:
+   :protected-members:
+   :undoc-members:
 
 Runtime Exceptions
+------------------
+
+EmptyStackException
+~~~~~~~~~~~~~~~~~~~
+
+.. doxygenclass:: EmptyStackException
+   :project: AbstractVM
+   :members:
+   :private-members:
+   :protected-members:
+   :undoc-members:
+
+InsufficientValuesException
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. doxygenclass:: InsufficientValuesException
+   :project: AbstractVM
+   :members:
+   :private-members:
+   :protected-members:
+   :undoc-members:
+
+DivisionByZeroException
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. doxygenclass:: DivisionByZeroException
+   :project: AbstractVM
+   :members:
+   :private-members:
+   :protected-members:
+   :undoc-members:
+
+OverflowException
+~~~~~~~~~~~~~~~~~
+
+.. doxygenclass:: OverflowException
+   :project: AbstractVM
+   :members:
+   :private-members:
+   :protected-members:
+   :undoc-members:
+
+UnderflowException
 ~~~~~~~~~~~~~~~~~~
 
-- **Stack underflow**: Operation requires more operands than available
-- **Division by zero**: Attempted division or modulo by zero
-- **Overflow**: Result exceeds type limits
-- **Underflow**: Result below type minimum
-- **Assert failed**: Assertion mismatch
-- **Empty stack on print**: Print called with empty stack
-- **Non-int8 on print**: Print called with non-int8 value
-- **No exit instruction**: Program terminated without exit
+.. doxygenclass:: UnderflowException
+   :project: AbstractVM
+   :members:
+   :private-members:
+   :protected-members:
+   :undoc-members:
 
-Error Messages
---------------
+AssertException
+~~~~~~~~~~~~~~~
 
-All exceptions include:
+.. doxygenclass:: AssertException
+   :project: AbstractVM
+   :members:
+   :private-members:
+   :protected-members:
+   :undoc-members:
 
-- **Error type**: Category of the error
-- **Line number**: Where the error occurred (when applicable)
-- **Details**: Specific information about the error
+NoExitException
+~~~~~~~~~~~~~~~
 
-Example
--------
-
-.. code-block:: cpp
-
-   try {
-       VirtualMachine vm;
-       vm.runFile("program.avm");
-   } catch (const AbstractVMException& e) {
-       std::cerr << "Error: " << e.what() << std::endl;
-       return 1;
-   }
+.. doxygenclass:: NoExitException
+   :project: AbstractVM
+   :members:
+   :private-members:
+   :protected-members:
+   :undoc-members:
