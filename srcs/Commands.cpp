@@ -100,9 +100,9 @@ void AssertCommand::execute(std::stack<const IOperand*>& stack) {
     // Check type
     if (top->getType() != _expected->getType()) {
         throw AssertException("Assert failed: type mismatch. Expected " +
-                             std::to_string(static_cast<int>(_expected->getType())) +
+                             std::string(operandTypeToString(_expected->getType())) +
                              " but got " +
-                             std::to_string(static_cast<int>(top->getType())));
+                             std::string(operandTypeToString(top->getType())));
     }
 
     // Check value
@@ -157,7 +157,8 @@ void PrintCommand::execute(std::stack<const IOperand*>& stack) {
 
     // Assert that the value is an Int8
     if (top->getType() != eOperandType::Int8) {
-        throw AssertException("Print requires Int8 value on top of stack");
+        throw AssertException("Print requires int8 value on top of stack, but got " +
+                             std::string(operandTypeToString(top->getType())));
     }
 
     // Get the value and interpret as ASCII

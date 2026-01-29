@@ -32,4 +32,20 @@ enum class eOperandType {
     Double = 4  ///< Double-precision floating-point type (highest precision)
 };
 
+/**
+ * @brief Converts an eOperandType to its string representation.
+ * @param type The operand type to convert
+ * @return const char* The string name of the type (e.g., "int8", "float")
+ */
+inline const char* operandTypeToString(eOperandType type) {
+    switch (type) {
+        case eOperandType::Int8:   return "int8";
+        case eOperandType::Int16:  return "int16";
+        case eOperandType::Int32:  return "int32";
+        case eOperandType::Float:  return "float";
+        case eOperandType::Double: return "double";
+        default:                   return "unknown";
+    }
+}
+
 #endif // EOPERANDTYPE_HPP
